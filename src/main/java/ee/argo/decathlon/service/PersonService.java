@@ -16,7 +16,6 @@ public class PersonService {
 
     private final PersonRepositry personRepositry;
 
-    // OOP: Strategy Pattern Map - seome nime ja klassi
     private static final Map<String, ScoringStrategy> strategies = Map.of(
             "100m", new HundredMetersScoring(),
             "Long Jump", new LongJumpScoring()
@@ -30,7 +29,6 @@ public class PersonService {
             result = personRepositry.findAll(pageable);
         }
 
-        // Arvutame punktid igale isikule enne väljastamist
         result.forEach(this::enrichWithPoints);
         return result;
     }
@@ -55,7 +53,6 @@ public class PersonService {
         return personRepositry.save(person);
     }
 
-    // Abimeetod, mis täidab transientse 'points' välja
     private void enrichWithPoints(Person person) {
         ScoringStrategy strategy = strategies.get(person.getSportField());
         if (strategy != null && person.getScore() != null) {
